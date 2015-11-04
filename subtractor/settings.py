@@ -85,18 +85,27 @@ WSGI_APPLICATION = 'subtractor.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'subtractor',
-		'USER': 'django_user',                   
-        'PASSWORD': 'deadmau5',              
-        'HOST': 'localhost',                      
-        'PORT': '5432',  
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'subtractor',
+    		'USER': 'django_user',                   
+            'PASSWORD': 'deadmau5',              
+            'HOST': 'localhost',                      
+            'PORT': '5432',  
+        }
     }
-}
+else:
+    #FROM OFFICIAL DJANGO DOCS, PUT BACK?
+    DATABASES['default'] =  dj_database_url.config()
+    
 
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -144,13 +153,7 @@ RQ_QUEUES = {
     }
 }
 
-DATABASES['default'] =  dj_database_url.config()
 
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
 # if DEBUG or TESTING:
 #     for queueConfig in RQ_QUEUES.itervalues():
 #         queueConfig['ASYNC'] = False
