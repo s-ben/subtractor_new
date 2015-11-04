@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-<<<<<<< HEAD
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -42,9 +42,4 @@ if settings.DEBUG:
 # #     url(r'^audio_process/',include('audio_process.urls')),
 #     url(r'^$', RedirectView.as_view(url='/audio_process/list/', permanent=True)),
 # ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-=======
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-]
->>>>>>> a44b7b0bfc3de3e1548e825ec11d760b443f1617
