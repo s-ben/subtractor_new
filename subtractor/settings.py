@@ -28,7 +28,7 @@ SECRET_KEY = 'cm7s+0(u*)se5+uuooo_-vi8n@&ivt&3zmj=zv4)a^=p$m6qp!'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -99,7 +99,7 @@ if DEBUG:
 else:
     #FROM OFFICIAL DJANGO DOCS, PUT BACK?
     DATABASES['default'] =  dj_database_url.config()
-    
+
 
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
