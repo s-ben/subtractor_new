@@ -1,1 +1,1 @@
-‘web: gunicorn subtractor.wsgi --log-file -’
+web: gunicorn subtractor.wsgi --log-file -
