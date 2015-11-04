@@ -1,0 +1,16 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.starter-template-subtractor {
+  padding: 30px 15px 10px 15px;
+  text-align: left;
+}
+
+.lead {
+	font-size: 18px;
+}
