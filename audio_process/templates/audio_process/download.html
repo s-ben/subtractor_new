@@ -1,0 +1,135 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+   
+
+      <div class="starter-template-subtractor">
+        <!-- <h1>Music Remover</h1> -->
+        <p class="lead">Music Remover attempts to remove music embedded in audio files. Simply upload your  audio file along with an copy of the original music you want to remove (wav, mp2, AAC, or OOG), and we’ll do the rest!</p>
+      
+        
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url "index" %}" method="post" enctype="multipart/form-data">
+          <!-- <label for="form">Your audio files </label> -->
+          {% csrf_token %}
+          <p>{{ form.non_field_errors }}</p>
+          <!-- <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p> -->
+          <h4>Upload audio recording</h4>
+          <p>
+            {{ form.docfile.errors }}
+            {{ form.docfile }}
+          </p>
+          <h4>Upload music to be removed</h4> 
+          <p>
+            {{ form.docfile2.errors }}
+            {{ form.docfile2 }}
+          </p>
+          <button type="submit" value="Upload"  class="btn btn-primary">Upload</button>
+          <!-- <p><input type="submit" value="Upload" /></p> -->
+        </form>
+        <!-- <br></br> -->
+
+        <div>
+          <h3>Output file</h3>
+          <p id="js_test"></p>
+          <p id="loaderDiv"></p>
+          <ul>
+            <li id="js_test"></li>
+
+
+          </ul>
+        </div>
+
+        <div>
+          <p id="loaderDiv"></p>
+        </div>
+
+        <script type="text/javascript">
+
+          var ajaxRequestIntervalMs = 1000;
+
+          // var ajaxRequestUrl = './a.txt';
+          // var ajaxRequestUrl = '/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav';
+
+          var ajaxRequestUrl = "{{output_path}}";
+          // console.log("story", ajaxRequestUrl_test, "story");
+          // {{output_url};
+
+          // var loaderImageUrl = './img/ajax-loader.gif';
+          var loaderImageUrl = '/media/ajax-loader.gif';
+          var loaderDivName = 'loaderDiv';
+           
+          // http://www.w3schools.com/js/js_obj_boolean.asp
+          var isLoading=new Boolean(); 
+          isLoading=false;
+           
+          //JavaScript's built-in setInterval() function
+          setInterval(
+              function(){                      
+                  $.ajax({
+                      url: ajaxRequestUrl,
+                      type: "GET",
+                      cache: false,                                  
+                      statusCode: {
+                          // HTTP-Code "Page not found"
+                          404: function() {
+                              if (isLoading===false){
+                                  showLoader();
+                              }
+                          },
+                          // HTTP-Code "Success"
+                          200: function() {
+                              if (isLoading===true){
+                                  hideLoader();
+                              }
+                          }    
+                      }
+                  });     
+              },
+              ajaxRequestIntervalMs
+          );
+           
+          // ------------ show- and hide-functions for the overlay -----------------
+          function showLoader(){
+              // $("body").append("<div id='" + loaderDivName + "'><img src='"+loaderImageUrl+"' /></div>");
+              var progress_text = $("<p></p>").text("File processing...."); 
+              // var progress_text = $("<p></p>").text(ajaxRequestUrl_test); 
+              $("#js_test").html(progress_text)
+              // $("js_test").html(ajaxRequestUrl_test)
+              $("#loaderDiv").append("<div id='" + loaderDivName + "'><img src='"+loaderImageUrl+"' /></div>");
+              // $("p").append("<div id='" + loaderDivName + "'><img src='"+loaderImageUrl+"' /></div>");
+              isLoading=true;
+          };
+            
+          function hideLoader(){
+              href = '<a href="/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav" target="_blank">Click here to download</a>' ;
+              $("#js_test").html(href)
+              $("#" + loaderDivName).remove();
+
+              isLoading=false;
+          };
+
+        </script>
+            <!-- List of uploaded documents -->
+
+
+
+      </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="starter-template-subtractor">
+        <!-- <h1>Music Remover</h1> -->
+        <p class="lead">Tweets, Facebook, etc.</p>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
