@@ -97,6 +97,7 @@ if DEBUG:
         }
     }
 else:
+    DATABASES = {}
     #FROM OFFICIAL DJANGO DOCS, PUT BACK?
     DATABASES['default'] =  dj_database_url.config()
 
