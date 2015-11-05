@@ -6,7 +6,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^download$', views.download, name='download'),
+    url(r'^download/$', views.download, name='download'),
     # url(r'^details/(?P<question_id>[0-9]+)$', views.details ),
     # url(r'^list/$', views.list, name='list'),
 #     url(r'^lists/', views.list, name='index'),
