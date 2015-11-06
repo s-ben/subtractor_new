@@ -22,7 +22,6 @@ pytz==2015.6
 redis==2.10.3
 rq==0.5.6
 rq-dashboard==0.3.4
-scipy==0.16.0
 simplejson==3.8.0
 six==1.10.0
 static3==0.6.1
