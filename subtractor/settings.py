@@ -139,6 +139,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
 RQ_QUEUES = {
     'default': {
         'HOST': 'localhost',
