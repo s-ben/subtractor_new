@@ -36,7 +36,7 @@ else:
 # DEBUG = False
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['*']  #CHANGE FOR PRODUCTION!
+# ALLOWED_HOSTS = ['*']  #CHANGE FOR PRODUCTION!
 
 # Application definition
 
@@ -161,7 +161,7 @@ RQ_QUEUES = {
     }
 }
 
-
+ALLOWED_HOSTS = ['*']  #CHANGE FOR PRODUCTION!
 # if DEBUG or TESTING:
 #     for queueConfig in RQ_QUEUES.itervalues():
 #         queueConfig['ASYNC'] = False
