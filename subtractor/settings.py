@@ -33,7 +33,7 @@ SECRET_KEY = 'cm7s+0(u*)se5+uuooo_-vi8n@&ivt&3zmj=zv4)a^=p$m6qp!'
 # else:
 #     DEBUG = True
 
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['*']  #CHANGE FOR PRODUCTION!
@@ -133,11 +133,11 @@ MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-# STATIC_ROOT = 'staticfiles'
-STATIC_ROOT = 'static'
+STATIC_ROOT = 'staticfiles'
+# STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    # os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 
