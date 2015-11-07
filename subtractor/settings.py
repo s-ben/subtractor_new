@@ -28,7 +28,7 @@ SECRET_KEY = 'cm7s+0(u*)se5+uuooo_-vi8n@&ivt&3zmj=zv4)a^=p$m6qp!'
 
 
 
-SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!
 if 'LOCAL_RUNNING' in os.environ:
     DEBUG = True
 else:
