@@ -148,8 +148,9 @@ STATICFILES_DIRS = (
 
 RQ_QUEUES = {
     'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'), 
+        # 'HOST': 'localhost',
+        # 'PORT': 6379,
         'DB': 0,
         # 'PASSWORD': 'some-password',
         'DEFAULT_TIMEOUT': 360,
