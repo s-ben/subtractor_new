@@ -32,6 +32,8 @@ import room_simulate
 
 from django_rq import job
 from django.core.files import File
+import urllib2
+
 
 @job
 def subtract(newdoc, newdoc2, current_user):
@@ -61,17 +63,30 @@ def subtract(newdoc, newdoc2, current_user):
     # print settings.BASE_DIR
 
 
-    input_wav = wave.open (recording_path, "r")
+    url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile.wav"
+    recorded_audio_file = urllib2.urlopen(url)
+    input_wav = wave.open (recorded_audio_file, "r")
+
+    # input_wav = wave.open (recording_path, "r")     # READING FROM DISK METHOD (PUT BACK IN?)
+
+
     (nchannels, sampwidth, framerate, nframes, comptype, compname) = input_wav.getparams ()
     frames = input_wav.readframes (nframes * nchannels)
     out = struct.unpack_from ("%dh" % nframes * nchannels, frames)
 
     r = np.asarray(out, np.float64)
 
-    # rate, data = scipy.io.wavfile.read(recording_path)
-    # r = data.astype(np.float64)
 
-    input_wav = wave.open (original_audio_path, "r")
+
+    url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/GhostsNStuff_mono_4s.wav"
+    original_audio_file = urllib2.urlopen(url)
+    input_wav = wave.open (original_audio_file, "r")
+
+    # input_wav = wave.open (original_audio_path, "r")    # READING FROM DISK METHOD (PUT BACK IN?)
+
+
+
+
     (nchannels, sampwidth, framerate, nframes, comptype, compname) = input_wav.getparams ()
     frames = input_wav.readframes (nframes * nchannels)
     out = struct.unpack_from ("%dh" % nframes * nchannels, frames)

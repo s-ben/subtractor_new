@@ -28,6 +28,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cm7s+0(u*)se5+uuooo_-vi8n@&ivt&3zmj=zv4)a^=p$m6qp!'
 
 
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_ACCESS_KEY_ID = 'AKIAIQOKNIF34QNEPEZQ'
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'audiofiles1234'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # if 'LOCAL_RUNNING' in os.environ:
@@ -93,19 +104,19 @@ WSGI_APPLICATION = 'subtractor.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 if DEBUG:
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'NAME': 'subtractor',
-    # 		'USER': 'django_user',                   
-    #         'PASSWORD': 'deadmau5',              
-    #         'HOST': 'localhost',                      
-    #         'PORT': '5432',  
-    #     }
-    # }
-    DATABASES = {}
-    #FROM OFFICIAL DJANGO DOCS, PUT BACK?
-    DATABASES['default'] =  dj_database_url.config()
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'subtractor',
+    		'USER': 'django_user',                   
+            'PASSWORD': 'deadmau5',              
+            'HOST': 'localhost',                      
+            'PORT': '5432',  
+        }
+    }
+    # DATABASES = {}
+    # #FROM OFFICIAL DJANGO DOCS, PUT BACK?
+    # DATABASES['default'] =  dj_database_url.config()
 else:
     DATABASES = {}
     #FROM OFFICIAL DJANGO DOCS, PUT BACK?
