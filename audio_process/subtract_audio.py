@@ -33,20 +33,18 @@ import room_simulate
 from django_rq import job
 from django.core.files import File
 import urllib2
-
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 
 @job
 def subtract(newdoc, newdoc2, current_user):
 
 
-    # newdoc_wav_path = newdoc.file 
-    # print newdoc_wav_path
+    # Connect to Amazon S3
+    conn = S3Connection(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+    bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME) 
+    k = Key(bucket)
 
-
-    # recording_path = os.path.join(settings.MEDIA_ROOT, newdoc.file )
-    # print newdoc.file
-    # type newdoc.file
-    # print newdoc.file.url 
 
     # get paths for raw audio and music to be subtracted
     raw_audio_filename = os.path.basename(newdoc.file.url)
@@ -62,7 +60,7 @@ def subtract(newdoc, newdoc2, current_user):
     # print recording_path
     # print settings.BASE_DIR
 
-
+    # Download file from AWS S3 
     url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile.wav"
     recorded_audio_file = urllib2.urlopen(url)
     input_wav = wave.open (recorded_audio_file, "r")
@@ -77,7 +75,7 @@ def subtract(newdoc, newdoc2, current_user):
     r = np.asarray(out, np.float64)
 
 
-
+    # Download file from AWS S3 
     url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/GhostsNStuff_mono_4s.wav"
     original_audio_file = urllib2.urlopen(url)
     input_wav = wave.open (original_audio_file, "r")
@@ -106,10 +104,6 @@ def subtract(newdoc, newdoc2, current_user):
 
     scaled_e = np.int16(e/np.max(np.abs(e)) * 32767)
 
-    # d = room_simulate.room_sim(u)
-    # scaled_d = np.int16(d/np.max(np.abs(d)) * 32767)
-    
-    # output_path = os.path.join(settings.MEDIA_ROOT, newdoc_filename+'TEST2.wav' )
 
     output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
     print output_filename
@@ -117,10 +111,19 @@ def subtract(newdoc, newdoc2, current_user):
     output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
     # output_path = os.path.join(settings.MEDIA_ROOT, ['/Ghosts_TEST2.wav'] )
 
+
+
+    # url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/GhostsNStuff_mono_4s.wav"
+    # original_audio_file = urllib2.urlopen(url)
+    # input_wav = wave.open (original_audio_file, "r")
+
     
     output_wav = wave.open (output_path, "w")
     output_wav.setparams((nchannels, sampwidth, framerate, nframes, comptype, compname))
     output_wav.writeframes(scaled_e)
+
+    k.key = output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
+    # k.set_contents_from_filename(output_filename+'_SUBTRACTED.wav')
 
     # write(output_path , 44100, scaled_e)
 
