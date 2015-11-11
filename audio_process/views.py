@@ -122,7 +122,7 @@ def index(request):
 
             # recording_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s.wav' )
             
-=
+
             
             # output_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s_TEST.wav' )
             # write(output_path , 44100, scaled_d)
