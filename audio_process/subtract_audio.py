@@ -36,6 +36,8 @@ import urllib2
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 
+import StringIO
+
 @job
 def subtract(newdoc, newdoc2, current_user):
 
@@ -107,8 +109,10 @@ def subtract(newdoc, newdoc2, current_user):
 
     output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
     print output_filename
+    output_filename_s3 = output_filename+'SUBTRACTED_TEST.wav'
 
     output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
+
     # output_path = os.path.join(settings.MEDIA_ROOT, ['/Ghosts_TEST2.wav'] )
 
 
@@ -117,20 +121,27 @@ def subtract(newdoc, newdoc2, current_user):
     # original_audio_file = urllib2.urlopen(url)
     # input_wav = wave.open (original_audio_file, "r")
 
-    
-    output_wav = wave.open (output_path, "w")
+    output_file = open(output_filename_s3, "w+")
+    # output_path = StringIO(scaled_e)
+
+    output_wav = wave.open (output_file, "w")
     output_wav.setparams((nchannels, sampwidth, framerate, nframes, comptype, compname))
     output_wav.writeframes(scaled_e)
 
-    k.key = output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
-    # k.set_contents_from_filename(output_filename+'_SUBTRACTED.wav')
+
+    # output_wav.seek(0)
+
+    # output_filename_s3 = output_filename+'TEST'
+    k.key = output_filename_s3#testes#output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
+    k.set_contents_from_file(output_file, rewind=True)
+
 
     # write(output_path , 44100, scaled_e)
 
-    f = open(output_path)
-    output_file = File(f)
+    # f = open(output_path)
+    # output_file = File(f)
 
-    newdoc3 = Audio(user = current_user, file = output_file)
-    newdoc3.save()
+    # newdoc3 = Audio(user = current_user, file = output_file)
+    # newdoc3.save()
 	
     return output_path
