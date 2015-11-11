@@ -51,8 +51,16 @@ def download(request):
             newdoc2.save()
 
             output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
-            output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
-            print output_path
+            output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
+
+    # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
+            output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
+
+
+
+            # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
+            # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
+            # print output_path
 
 
             # subtract_audio.subtract(newdoc, newdoc2)
