@@ -134,6 +134,7 @@ def subtract(newdoc, newdoc2, current_user):
     # output_filename_s3 = output_filename+'TEST'
     k.key = output_filename_s3#testes#output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
     k.set_contents_from_file(output_file, rewind=True)
+    k.make_public()
 
 
     # write(output_path , 44100, scaled_e)
