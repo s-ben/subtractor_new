@@ -51,15 +51,15 @@ def download(request):
             newdoc2.save()
 
 
-            # print "output path"
-            # print output_path
-
 
             # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
-            output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
-            output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
+
             # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
-            output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
+            
+
+            # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
+            # output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
+            # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
             # print output_path
 
 
@@ -122,10 +122,7 @@ def index(request):
 
             # recording_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s.wav' )
             
-            # rate, data = scipy.io.wavfile.read(recording_path)
-            # u = data.astype(np.float64)
-            # d = room_simulate.room_sim(u)
-            # scaled_d = np.int16(d/np.max(np.abs(d)) * 32767)
+=
             
             # output_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s_TEST.wav' )
             # write(output_path , 44100, scaled_d)
@@ -146,46 +143,7 @@ def index(request):
     # Render list page with the documents and the form
     return render(request,'index.html', context)
 
-
-# def list(request):
-#     # Handle file upload
-#     if request.method == 'POST':
-#         form = DocumentForm(request.POST, request.FILES)
-#         if form.is_valid():
-#         	current_user = User()		# create new user
-#         	current_user.save()
-# #         	print current_user.id
-#         	newdoc = Audio(user = current_user, file = request.FILES['docfile'])
-#         	newdoc2 = Audio(user = current_user, file = request.FILES['docfile2'])
-
-#         	newdoc.save()
-#         	newdoc2.save()
-        	
-#         	recording_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s.wav' )
-        	
-#         	rate, data = scipy.io.wavfile.read(recording_path)
-#         	u = data.astype(np.float64)
-#         	d = room_simulate.room_sim(u)
-#         	scaled_d = np.int16(d/np.max(np.abs(d)) * 32767)
-        	
-#         	output_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s_TEST.wav' )
-#         	write(output_path , 44100, scaled_d)
-			
-#             # Redirect to the document list after POST
-#         return HttpResponseRedirect(reverse('index'))
-#     else:
-#         form = DocumentForm() # A empty, unbound form
-
-    
-#     # Load documents for the list page
-# #     documents = Document.objects.all()
-#     documents = Audio.objects.all()
-#     context = {'documents': documents, 'form': form}
-# #     context = {'documents': documents}
-
-#     # Render list page with the documents and the form
-#     # return render(request,'audio_process/list.html', context)
-#     return render(request,'index.html', context)
+=
         
         
         
