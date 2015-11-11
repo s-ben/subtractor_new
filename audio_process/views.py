@@ -36,7 +36,7 @@ from django_rq import job
 
 def download(request):
 
-    output_path = "blank_path"
+
 
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -82,7 +82,7 @@ def download(request):
     
     # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
     # output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
-
+    output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav'
     # # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
     # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
         # output_url = os.path.join(settings.MEDIA_ROOT, raw_audio_filename)  
