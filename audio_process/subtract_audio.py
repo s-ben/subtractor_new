@@ -109,9 +109,10 @@ def subtract(newdoc, newdoc2, current_user):
 
     output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
     print output_filename
-    output_filename_s3 = output_filename+'SUBTRACTED_TEST.wav'
+    output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
 
-    output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
+    # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
+    output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
 
     # output_path = os.path.join(settings.MEDIA_ROOT, ['/Ghosts_TEST2.wav'] )
 
