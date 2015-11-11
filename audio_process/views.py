@@ -143,7 +143,7 @@ def index(request):
     # Render list page with the documents and the form
     return render(request,'index.html', context)
 
-=
+
         
         
         

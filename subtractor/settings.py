@@ -36,11 +36,15 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = 'audiofiles1234'
 
+# COMMENTED OUT BOTO STATICFILE COLLECTION
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+# STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+STATIC_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # if 'LOCAL_RUNNING' in os.environ:
@@ -106,19 +110,19 @@ WSGI_APPLICATION = 'subtractor.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 if DEBUG:
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #         'NAME': 'subtractor',
-    # 		'USER': 'django_user',                   
-    #         'PASSWORD': 'deadmau5',              
-    #         'HOST': 'localhost',                      
-    #         'PORT': '5432',  
-    #     }
-    # }
-    DATABASES = {}
-    #FROM OFFICIAL DJANGO DOCS, PUT BACK?
-    DATABASES['default'] =  dj_database_url.config()
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'subtractor',
+    		'USER': 'django_user',                   
+            'PASSWORD': 'deadmau5',              
+            'HOST': 'localhost',                      
+            'PORT': '5432',  
+        }
+    }
+    # DATABASES = {}
+    # #FROM OFFICIAL DJANGO DOCS, PUT BACK?
+    # DATABASES['default'] =  dj_database_url.config()
 else:
     DATABASES = {}
     #FROM OFFICIAL DJANGO DOCS, PUT BACK?
@@ -153,6 +157,7 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 STATIC_ROOT = 'staticfiles'
 # STATIC_ROOT = 'static'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
