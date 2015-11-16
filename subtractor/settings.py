@@ -113,19 +113,19 @@ WSGI_APPLICATION = 'subtractor.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'subtractor',
-    		'USER': 'django_user',                   
-            'PASSWORD': 'deadmau5',              
-            'HOST': 'localhost',                      
-            'PORT': '5432',  
-        }
-    }
-    # DATABASES = {}
-    # #FROM OFFICIAL DJANGO DOCS, PUT BACK?
-    # DATABASES['default'] =  dj_database_url.config()
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'NAME': 'subtractor',
+    # 		'USER': 'django_user',                   
+    #         'PASSWORD': 'deadmau5',              
+    #         'HOST': 'localhost',                      
+    #         'PORT': '5432',  
+    #     }
+    # }
+    DATABASES = {}
+    #FROM OFFICIAL DJANGO DOCS, PUT BACK?
+    DATABASES['default'] =  dj_database_url.config()
 else:
     DATABASES = {}
     #FROM OFFICIAL DJANGO DOCS, PUT BACK?
