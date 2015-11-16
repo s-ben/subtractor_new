@@ -191,7 +191,7 @@ RQ_QUEUES = {
 
 # setting for django-cors-headers. May want to change this later for security reasons
 CORS_ORIGIN_ALLOW_ALL = True
-
+CORS_ALLOW_CREDENTIALS = False
 
 # if DEBUG or TESTING:
 #     for queueConfig in RQ_QUEUES.itervalues():
