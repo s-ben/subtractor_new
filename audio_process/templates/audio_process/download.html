@@ -39,11 +39,11 @@
           <h3>Output file</h3>
           <p id="js_test"></p>
           <p id="loaderDiv"></p>
-          <ul>
+<!--           <ul>
             <li id="js_test"></li>
 
 
-          </ul>
+          </ul> -->
         </div>
 
         <div>
@@ -57,7 +57,9 @@
           // var ajaxRequestUrl = './a.txt';
           // var ajaxRequestUrl = '/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav';
 
-          var ajaxRequestUrl = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav';
+          // var ajaxRequestUrl = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav';
+          var ajaxRequestUrl = '{% static "Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav" %}'
+
           //"{{output_path}}";
 
           // console.log("story", ajaxRequestUrl_test, "story");
@@ -116,12 +118,17 @@
           };
             
           function hideLoader(){
-              // href = '<a href="/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav" target="_blank">Click here to download</a>' ;
-              href = '<a href="https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfileSUBTRACTED_TEST.wav" target="_blank">Click here to download</a>' ;
+              // // href = '<a href="/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav" target="_blank">Click here to download</a>' ;
+              href = '<a href='+ ajaxRequestUrl +' target="_blank">Click here to download</a>' ;
               
+              // href = '<a id="download_link" /a>' ;
+              // document.getElementById("download_link").setAttribute("href",ajaxRequestUrl);
 
               $("#js_test").html(href)
               $("#" + loaderDivName).remove();
+
+              // $("#loaderDiv").append("<div id='" + loaderDivName + "'><a href='"+ajaxRequestUrl+"' /></div>");
+
 
               isLoading=false;
           };
