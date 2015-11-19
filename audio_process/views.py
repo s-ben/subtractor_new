@@ -4,7 +4,7 @@
 # Create your views here.
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 
     
  # -*- coding: utf-8 -*-
@@ -36,9 +36,15 @@ from django_rq import job
 
 def download(request):
 
-    if request.session.test_cookie_worked():
-        print ">>>> TEST COOKIE WORKED!"
-        request.session.delete_test_cookie()
+    # if request.session.test_cookie_worked():
+    #     print ">>>> TEST COOKIE WORKED!"
+    #     request.session.delete_test_cookie()
+
+    print request.COOKIES
+
+    if request.COOKIES.has_key('test_cookie'):
+        print "test cookie value"
+        print request.COOKIES['test_cookie']
 
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
@@ -51,18 +57,6 @@ def download(request):
 
             newdoc.save()
             newdoc2.save()
-
-
-
-            # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
-
-            # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
-            
-
-            # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
-            # output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
-            # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
-            # print output_path
 
 
             # subtract_audio.subtract(newdoc, newdoc2)
@@ -100,8 +94,12 @@ def download(request):
 
 def index(request):
 
+    # response = HttpResponse()
+    # response = render_to_response('rango/index.html', context_dict, context)
 
-    request.session.set_test_cookie()
+    # # request.session.set_test_cookie()
+    # response = render_to_response('download.html')
+    # response.set_cookie('test_cookie')
 
     # Handle file upload
     if request.method == 'POST':
@@ -127,7 +125,9 @@ def index(request):
             # recording_path = os.path.join(settings.MEDIA_ROOT, 'newdoc.file' )
 
             # recording_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s.wav' )
-            
+            context = {'form': form}
+            # response = render_to_response('download.html', context, RequestContext(request))
+            # response.set_cookie('test_cookie', 'test_value')
 
             
             # output_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s_TEST.wav' )
@@ -135,7 +135,11 @@ def index(request):
             
             # Redirect to the document list after POST
         # return HttpResponseRedirect(reverse('index'))
-        return HttpResponseRedirect(reverse('download'))
+        # return HttpResponseRedirect(reverse('download'))
+            response = HttpResponseRedirect(reverse('download'))
+            response.set_cookie('test_cookie', 'test_value')
+        # return render(response,'download.html')
+            return response
     else:
         form = DocumentForm() # A empty, unbound form
 
