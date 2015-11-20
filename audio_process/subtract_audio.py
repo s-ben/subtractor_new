@@ -48,21 +48,24 @@ def subtract(newdoc, newdoc2, current_user):
     k = Key(bucket)
 
 
-    # get paths for raw audio and music to be subtracted
+    # get filenames of raw audio and music to be subtracted
     raw_audio_filename = os.path.basename(newdoc.file.url)
     original_audio_filename = os.path.basename(newdoc2.file.url)
 
-    # newdoc_url = newdoc.file.url 
-    # print type(newdoc_url)
+    # Create upload paths to S3 for mixed audio
+    raw_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+raw_audio_filename
+    original_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+original_audio_filename
 
-    # Create paths to read in audio files
-    recording_path = os.path.join(settings.MEDIA_ROOT, raw_audio_filename)
-    original_audio_path = os.path.join(settings.MEDIA_ROOT, original_audio_filename)
-    # recording_path = os.path.join(settings.BASE_DIR, newdoc_url)
-    # print recording_path
-    # print settings.BASE_DIR
+    # Upload raw input to S3
+    raw_input_file = open(output_filename_s3, "w+")     # Create file object
+    raw_input_wav = wave.open (output_file, "w")
 
-    # Download file from AWS S3 
+    # Create paths to read in audio files (Legacy code from when saving files locally to MEDIA)
+    # recording_path = os.path.join(settings.MEDIA_ROOT, raw_audio_filename)
+    # original_audio_path = os.path.join(settings.MEDIA_ROOT, original_audio_filename)
+
+
+    # Load file from AWS S3 
     url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile.wav"
     recorded_audio_file = urllib2.urlopen(url)
     input_wav = wave.open (recorded_audio_file, "r")
