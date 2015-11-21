@@ -57,8 +57,10 @@ def subtract(newdoc, newdoc2, current_user):
     original_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+original_audio_filename
 
     # Upload raw input to S3
-    raw_input_file = open(output_filename_s3, "w+")     # Create file object
-    raw_input_wav = wave.open (output_file, "w")
+    # raw_input_file = open(raw_audio_filename, "w+")     # Create file object
+    k.key = raw_audio_filename#testes#output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
+    k.set_contents_from_file(newdoc.file, rewind=True)
+    k.make_public()
 
     # Create paths to read in audio files (Legacy code from when saving files locally to MEDIA)
     # recording_path = os.path.join(settings.MEDIA_ROOT, raw_audio_filename)
