@@ -53,13 +53,17 @@ def subtract(newdoc, newdoc2, current_user):
     original_audio_filename = os.path.basename(newdoc2.file.url)
 
     # Create upload paths to S3 for mixed audio
-    raw_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+raw_audio_filename
-    original_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+original_audio_filename
+    # raw_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+raw_audio_filename
+    # original_audio_s3_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+original_audio_filename
 
     # Upload raw input to S3
-    # raw_input_file = open(raw_audio_filename, "w+")     # Create file object
     k.key = raw_audio_filename#testes#output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
     k.set_contents_from_file(newdoc.file, rewind=True)
+    k.make_public()
+
+    # Upload original audio to S3
+    k.key = original_audio_filename#testes#output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
+    k.set_contents_from_file(newdoc2.file, rewind=True)
     k.make_public()
 
     # Create paths to read in audio files (Legacy code from when saving files locally to MEDIA)
@@ -71,10 +75,11 @@ def subtract(newdoc, newdoc2, current_user):
     url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile.wav"
     recorded_audio_file = urllib2.urlopen(url)
     input_wav = wave.open (recorded_audio_file, "r")
+    # input_wav = wave.open (newdoc.file, "r") #attempt (failed?) at opening file directly from filefield object
 
     # input_wav = wave.open (recording_path, "r")     # READING FROM DISK METHOD (PUT BACK IN?)
 
-
+    # Read wav file into numpy array
     (nchannels, sampwidth, framerate, nframes, comptype, compname) = input_wav.getparams ()
     frames = input_wav.readframes (nframes * nchannels)
     out = struct.unpack_from ("%dh" % nframes * nchannels, frames)
@@ -89,9 +94,7 @@ def subtract(newdoc, newdoc2, current_user):
 
     # input_wav = wave.open (original_audio_path, "r")    # READING FROM DISK METHOD (PUT BACK IN?)
 
-
-
-
+    # Read wav file into numpy array
     (nchannels, sampwidth, framerate, nframes, comptype, compname) = input_wav.getparams ()
     frames = input_wav.readframes (nframes * nchannels)
     out = struct.unpack_from ("%dh" % nframes * nchannels, frames)

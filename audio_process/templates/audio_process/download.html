@@ -58,8 +58,13 @@
           // var ajaxRequestUrl = '/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav';
 
           // var ajaxRequestUrl = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav';
-          var ajaxRequestUrl = '{% static "Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav" %}'
+          var test_url = "{{output_path}}";
+          // var real_test_url = test_url+'https://s3-us-west-2.amazonaws.com/audiofiles1234/';
 
+          var ajaxRequestUrl = '{% static "Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav" %}';
+          // var ajaxRequestUrl = '{% static test_url %}';
+
+          
           //"{{output_path}}";
 
           // console.log("story", ajaxRequestUrl_test, "story");
@@ -106,11 +111,16 @@
               // $("body").append("<div id='" + loaderDivName + "'><img src='"+loaderImageUrl+"' /></div>");
               var progress_text = $("<p></p>").text("File processing...."); 
               // var progress_text = $("<p></p>").text(ajaxRequestUrl_test); 
+
+
               $("#js_test").html(progress_text)
+             
               // $("js_test").html(ajaxRequestUrl_test)
+
 
               //Loading image gif (PUT BACK IN LATER)
               $("#loaderDiv").append("<div id='" + loaderDivName + "'><img src='"+loaderImageUrl+"' /></div>");
+              $("#loaderDiv").append("<div id='" + loaderDivName + "'><img src='"+test_url+"' /></div>");
 
 
               // $("p").append("<div id='" + loaderDivName + "'><img src='"+loaderImageUrl+"' /></div>");

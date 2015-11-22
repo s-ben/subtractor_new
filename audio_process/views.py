@@ -58,7 +58,10 @@ def download(request):
             newdoc.save()
             newdoc2.save()
 
-
+            # Get filename of raw audio file (mixed audio)
+            # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename
+            output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
+            output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename
             # subtract_audio.subtract(newdoc, newdoc2)
             # subtract_audio.subtract.delay(newdoc, newdoc2)
             subtract_audio.subtract.delay(newdoc, newdoc2, current_user)
@@ -69,6 +72,7 @@ def download(request):
         return HttpResponseRedirect(reverse('download'))
     else:
         form = DocumentForm() # A empty, unbound form
+        output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/boogabooga'
        
 
         
@@ -78,11 +82,12 @@ def download(request):
     
     # output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
     # output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
-    output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED_TEST.wav'
+    # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename
     # # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
     # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
         # output_url = os.path.join(settings.MEDIA_ROOT, raw_audio_filename)  
     # output_path = '/media/Ghosts_echoed_RIR_noise_testfile_SUBTRACTED.wav'
+    # context = {'documents': documents, 'form': form, 'output_path': output_path}
     context = {'documents': documents, 'form': form, 'output_path': output_path}
     #     context = {'documents': documents}
 
