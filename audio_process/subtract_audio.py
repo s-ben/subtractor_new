@@ -2,18 +2,6 @@ import numpy as np
 import os
 from django.conf import settings
 
-# from django.http import HttpResponse
-# from django.shortcuts import render
-
-    
- # -*- coding: utf-8 -*-
-# from django.shortcuts import render_to_response
-# from django.template import RequestContext
-# from django.http import HttpResponseRedirect
-# from django.core.urlresolvers import reverse
-
-from django.conf import settings
-import os
 
 
 from .models import Document, User, Audio
@@ -27,7 +15,7 @@ import struct
 
 import numpy as np
 import adaptfilt as adf
-import room_simulate
+import room_simulate  # DELETE?
 
 
 from django_rq import job
@@ -66,10 +54,6 @@ def subtract(newdoc, newdoc2, current_user):
     k.set_contents_from_file(newdoc2.file, rewind=True)
     k.make_public()
 
-    # Create paths to read in audio files (Legacy code from when saving files locally to MEDIA)
-    # recording_path = os.path.join(settings.MEDIA_ROOT, raw_audio_filename)
-    # original_audio_path = os.path.join(settings.MEDIA_ROOT, original_audio_filename)
-
 
     # Load file from AWS S3 
     url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/Ghosts_echoed_RIR_noise_testfile.wav"
@@ -101,12 +85,11 @@ def subtract(newdoc, newdoc2, current_user):
 
     o = np.asarray(out, np.float64)
 
-    # rate, data = scipy.io.wavfile.read(original_audio_path)
-    # o = data.astype(np.float64)
 
-    print len(o)
-    print len(r)
-    print 'applying adaptive filt'
+    # print len(o)
+    # print len(r)
+    # print 'applying adaptive filt'
+
     # Apply adaptive filter
     M = 100 #8000 (takelly long time) #100  # Number of filter taps in adaptive filter
     step = 0.1  # Step size
@@ -114,7 +97,7 @@ def subtract(newdoc, newdoc2, current_user):
 
     scaled_e = np.int16(e/np.max(np.abs(e)) * 32767)
 
-
+    # Create output filename
     output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
     print output_filename
     output_filename_s3 = output_filename+'_SUBTRACTED_TEST.wav'
@@ -122,24 +105,15 @@ def subtract(newdoc, newdoc2, current_user):
     # output_path = os.path.join(settings.MEDIA_ROOT,output_filename+'_SUBTRACTED.wav')
     output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename_s3
 
-    # output_path = os.path.join(settings.MEDIA_ROOT, ['/Ghosts_TEST2.wav'] )
 
+    # Write output wav to S3
+    output_file = open(output_filename_s3, "w+")   # create pointer to file object
 
-
-    # url = "https://s3-us-west-2.amazonaws.com/audiofiles1234/GhostsNStuff_mono_4s.wav"
-    # original_audio_file = urllib2.urlopen(url)
-    # input_wav = wave.open (original_audio_file, "r")
-
-    output_file = open(output_filename_s3, "w+")
-    # output_path = StringIO(scaled_e)
-
-    output_wav = wave.open (output_file, "w")
+    output_wav = wave.open (output_file, "w")       
     output_wav.setparams((nchannels, sampwidth, framerate, nframes, comptype, compname))
     output_wav.writeframes(scaled_e)
 
-
     # output_wav.seek(0)
-
     # output_filename_s3 = output_filename+'TEST'
     k.key = output_filename_s3#testes#output_filename     # for now, key for bucket is filename (might want to change this in case of duplicates)
     k.set_contents_from_file(output_file, rewind=True)

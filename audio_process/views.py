@@ -5,7 +5,6 @@
 
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
-
     
  # -*- coding: utf-8 -*-
 # from django.shortcuts import render_to_response
@@ -16,15 +15,8 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 import os
 
-
 from .models import Document, User, Audio
 from .forms import DocumentForm
-
-# DELETE??
-# import scipy.io.wavfile
-# from scipy.io.wavfile import write
-
-
 
 import numpy as np
 import room_simulate
@@ -33,12 +25,8 @@ import subtract_audio
 from django_rq import job 
 
 
-
 def download(request):
 
-    # if request.session.test_cookie_worked():
-    #     print ">>>> TEST COOKIE WORKED!"
-    #     request.session.delete_test_cookie()
 
     print request.COOKIES
 
@@ -62,8 +50,7 @@ def download(request):
             # output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename
             output_filename = os.path.splitext(os.path.basename(newdoc.file.url))[0]
             output_path = 'https://s3-us-west-2.amazonaws.com/audiofiles1234/'+output_filename
-            # subtract_audio.subtract(newdoc, newdoc2)
-            # subtract_audio.subtract.delay(newdoc, newdoc2)
+
             subtract_audio.subtract.delay(newdoc, newdoc2, current_user)
                 
             documents = Audio.objects.all()
@@ -99,12 +86,6 @@ def download(request):
 
 def index(request):
 
-    # response = HttpResponse()
-    # response = render_to_response('rango/index.html', context_dict, context)
-
-    # # request.session.set_test_cookie()
-    # response = render_to_response('download.html')
-    # response.set_cookie('test_cookie')
 
     # Handle file upload
     if request.method == 'POST':
@@ -120,23 +101,15 @@ def index(request):
             newdoc2.save()
 
             
-            # subtract_audio.subtract(newdoc, newdoc2)
-            # subtract_audio.subtract.delay(newdoc, newdoc2)
+            # Put audio files onto RQ queue for processing
             subtract_audio.subtract.delay(newdoc, newdoc2, current_user)
             
-            # print newdoc.
-            # newdoc_wav_path = newdoc.file 
-            # print newdoc_wav_path
-            # recording_path = os.path.join(settings.MEDIA_ROOT, 'newdoc.file' )
 
-            # recording_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s.wav' )
             context = {'form': form}
-            # response = render_to_response('download.html', context, RequestContext(request))
-            # response.set_cookie('test_cookie', 'test_value')
+
 
             
-            # output_path = os.path.join(settings.MEDIA_ROOT, 'GhostsNStuff_mono_4s_TEST.wav' )
-            # write(output_path , 44100, scaled_d)
+
             
             # Redirect to the document list after POST
         # return HttpResponseRedirect(reverse('index'))

@@ -16,9 +16,3 @@ urlpatterns = [
 # name='detail'
 # (?P<question_id>[0-9]+)/$
 
-# -*- coding: utf-8 -*-
-# from django.conf.urls import patterns, url
-# 
-# urlpatterns = patterns('subtractor.audio_process.views',
-#     url(r'^list/$', 'list', name='list'),
-# )
